@@ -3,7 +3,7 @@ function filter(collection, fn) {
 
   function add(model) {
     if(!fn || fn(model)) {
-      c.add(model);
+      c.add(model.toJSON());
     }
   }
 
