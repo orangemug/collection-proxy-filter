@@ -19,10 +19,10 @@ describe("collection-proxy-filter", function() {
 
   it("no-op filter should contain same models", function() {
     var c = proxyFilter(this.collection);
-    assert.equal(c.at(0), this.collection.at(0));
-    assert.equal(c.at(1), this.collection.at(1));
-    assert.equal(c.at(2), this.collection.at(2));
-    assert.equal(c.at(3), this.collection.at(3));
+    assert.deepEqual(c.at(0).toJSON(), this.collection.at(0).toJSON());
+    assert.deepEqual(c.at(1).toJSON(), this.collection.at(1).toJSON());
+    assert.deepEqual(c.at(2).toJSON(), this.collection.at(2).toJSON());
+    assert.deepEqual(c.at(3).toJSON(), this.collection.at(3).toJSON());
   });
 
   it("filter should contain only models filtered", function() {
@@ -31,22 +31,22 @@ describe("collection-proxy-filter", function() {
       if(id > 1 && id < 4) return true;
       return false;
     });
-    assert.equal(c.at(0), this.collection.at(1));
-    assert.equal(c.at(1), this.collection.at(2));
+    assert.deepEqual(c.at(0).toJSON(), this.collection.at(1).toJSON());
+    assert.deepEqual(c.at(1).toJSON(), this.collection.at(2).toJSON());
   });
 
   it("should track add events", function() {
     var c = proxyFilter(this.collection);
     this.collection.add({id: 5});
     assert.equal(c.size(), 5);
-    assert.equal(c.at(5), this.collection.at(5));
+    assert.deepEqual(c.at(4).toJSON(), this.collection.at(4).toJSON());
   });
 
   it("should track remove events", function() {
     var c = proxyFilter(this.collection);
     this.collection.remove(this.collection.at(1));
     assert.equal(c.size(), 3);
-    assert.equal(c.at(1), this.collection.at(1));
+    assert.deepEqual(c.at(1).toJSON(), this.collection.at(1).toJSON());
   });
 
   it("should track reset events", function() {
